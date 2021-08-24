@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "bopull-app-client",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
+    {
+        path: '',
+		component: TabsPage,
+        redirectTo: 'tabs/main'
+    },
 	{
 		path: 'tabs',
 		component: TabsPage,

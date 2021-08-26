@@ -1,9 +1,20 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>main</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>main</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    main
+    <owl-date-time-inline #dt1
+        class="dbd-owl-datetime"
+        pickerType="calendar"
+        selectMode="single"
+        [(ngModel)]="selectedDate"
+        (ngModelChange)="dtChanges($event)">
+    </owl-date-time-inline>
+
+    <button (click)="setToday()">Today</button>
+
+    <pre style="color: rgba(255, 255, 255, 0.5); margin-bottom: 40px;">{{pickDateObj | json}}</pre>
+    <pre style="color: rgba(255, 255, 255, 0.5)">{{selectedDate}}</pre>
 </ion-content>

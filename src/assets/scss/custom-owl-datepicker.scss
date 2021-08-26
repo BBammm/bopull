@@ -1,0 +1,63 @@
+.dbd-owl-datetime {
+    display: block;
+    /* 사이징 */
+    .owl-dt-inline-container {
+        width: 100%;
+        .owl-dt-calendar {
+            height: initial;
+        }
+    }
+
+    /* 컨테이너 전체 */
+    .owl-dt-inline-container {
+        background-color: transparent;
+        box-shadow: none;
+
+        .owl-dt-container-row {
+            border-bottom: none;
+        }
+    }
+
+    /* 상단 컨트롤 */
+    .owl-dt-calendar-control {
+        color: var(--ion-color-light-contrast);
+
+        // 상단 컨트롤 화살표 버튼
+        // .owl-dt-control-arrow-button[disabled] {
+        // }
+    }
+
+    /* 일자 테이블 */
+    .owl-dt-calendar-table {
+        // 헤더 컬러
+        .owl-dt-calendar-header {
+            color: var(--ion-color-light-contrast);
+
+            .owl-dt-calendar-table-divider:after {
+                background-color: var(--ion-color-medium-shade);
+            }
+        }
+
+        // 일자 컬러
+        .owl-dt-calendar-cell {
+            color: var(--ion-color-light-contrast);
+            font-weight: 600;
+        }
+
+        // 일자 선택된 컬러
+        .owl-dt-calendar-cell-selected {
+            color: var(--ion-color-primary-contrast);
+            background-color: var(--ion-color-primary);
+        }
+
+        // 일자 선택 불가능 컬러
+        .owl-dt-calendar-cell-disabled > .owl-dt-calendar-cell-content:not(.owl-dt-calendar-cell-selected) {
+            color: var(--ion-color-medium);
+        }
+    }
+
+    /* 하단 일자 선택 정보 (기본 숨김) */
+    .owl-dt-container-info {
+        display: none;
+    }
+}

@@ -8,11 +8,10 @@ import * as moment from 'moment-timezone';
 })
 export class MainPage implements OnInit {
     @Input() timezone = 'Asia/Seoul';
-    // public minDate = moment().startOf('date').add(1, 'day');
-    // public maxDate = moment().startOf('date').add(15, 'day');
-    public selectedDate;
 
+    public selectedDate: any;
     public pickDateObj: any;
+    public cardTrigger: boolean = false;
 
     constructor() { }
 
@@ -20,7 +19,7 @@ export class MainPage implements OnInit {
     }
 
 
-    dtChanges(date: moment.Moment) {
+    dtChanges(date: any) {
         if (!date) return;
         console.log(date);
         this.pickDateObj = this.assignDate(moment(date));
@@ -29,11 +28,7 @@ export class MainPage implements OnInit {
     }
 
     assignDate(m: moment.Moment) {
-        return {
-            dateISOString: m.tz(this.timezone).toISOString(),
-            dateEndISOString: m.tz(this.timezone).endOf('date').toISOString(),
-            dateSimpleLabel: m.tz(this.timezone).format('M/D'),
-        }
+        return m.tz(this.timezone).format('YYYY/M/D');
     }
 
     /**

@@ -10,8 +10,8 @@ import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 
 
 import { MainPage } from './main.page';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetimex/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
+import { CalCardComponent } from '../component/cal-card/cal-card.component';
 
 @NgModule({
     imports: [
@@ -20,9 +20,12 @@ import { OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetimex/date-tim
         IonicModule,
         MainPageRoutingModule,
         OwlDateTimeModule,
-        OwlNativeDateTimeModule
+        OwlNativeDateTimeModule,
     ],
-    declarations: [MainPage],
+    declarations: [
+        MainPage,
+        CalCardComponent
+    ],
     providers: [
     {
         provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,

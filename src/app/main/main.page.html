@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
+    <button (click)="setToday()">Today</button>
+
     <owl-date-time-inline #dt1
         class="dbd-owl-datetime"
         pickerType="calendar"
@@ -13,7 +15,9 @@
         (ngModelChange)="dtChanges($event)">
     </owl-date-time-inline>
 
-    <button (click)="setToday()">Today</button>
+    <ng-container>
+        <app-cal-card></app-cal-card>
+    </ng-container>
 
     <pre style="color: rgba(255, 255, 255, 0.5); margin-bottom: 40px;">{{pickDateObj | json}}</pre>
     <pre style="color: rgba(255, 255, 255, 0.5)">{{selectedDate}}</pre>

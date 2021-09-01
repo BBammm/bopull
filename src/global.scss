@@ -24,7 +24,20 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 /* global scss */
 @import "./assets/scss/modal.scss";
 @import "./assets/scss/custom-owl-datepicker.scss";
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap");
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: 'Noto Sans KR', 'yg-jalnan' sans-serif;
+}

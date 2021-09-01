@@ -5,19 +5,9 @@
 </ion-header>
 
 <ion-content>
-    <button (click)="setToday()">Today</button>
-    <owl-date-time-inline #dt1
-        class="dbd-owl-datetime"
-        pickerType="calendar"
-        selectMode="single"
-        [(ngModel)]="selectedDate"
-        (ngModelChange)="dtChanges($event)">
-    </owl-date-time-inline>
-
     <!-- <owl-date-time-inline #dt1 class="dbd-owl-datetime" pickerType="calendar" selectMode="single"
         [(ngModel)]="selectedDate" (ngModelChange)="dtChanges($event)">
     </owl-date-time-inline> -->
-
     <div>
         <div class="text-center">
             <div class="btn-group">
@@ -124,5 +114,40 @@
                 </button>
             </div>
         </ng-template> -->
+    </div>
+    <div class="select-view-wrap">
+    	<div class="view">
+    		<div class="selected">
+    			<p class="date">
+    				23
+    			</p>
+    			<small class="day">
+    				화
+    			</small>
+    		</div>
+    		<div class="content">
+    			<ul>
+    				<li>
+                        <span class="ball"></span>
+    					어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+    				</li>
+    				<li>
+    					어쩌구저쩌구
+    				</li>
+    				<li>
+    					어쩌구저쩌구
+    				</li>
+    				<li>
+    					어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+    				</li>
+    				<li>
+    					어쩌구저쩌구
+    				</li>
+    				<li>
+    					어쩌구저쩌구
+    				</li>
+    			</ul>
+    		</div>
+    	</div>
     </div>
 </ion-content>

@@ -49,19 +49,6 @@ export class MainPage implements OnInit {
     ngOnInit() {
     }
 
-
-    dtChanges(date: any) {
-        if (!date) return;
-        console.log(date);
-        this.pickDateObj = this.assignDate(moment(date));
-
-        console.log(this.pickDateObj);
-    }
-
-    assignDate(m: moment.Moment) {
-        return m.tz(this.timezone).format('YYYY/M/D');
-    }
-
     /**
      * setToday
      */

@@ -21,17 +21,34 @@
     /* 상단 컨트롤 */
     .owl-dt-calendar-control {
         color: var(--ion-color-light-contrast);
-
+        margin-bottom: 15px;
+        .owl-dt-control-button{
+            font-family: 'yg-jalnan', sans-serif;
+        }
         // 상단 컨트롤 화살표 버튼
         // .owl-dt-control-arrow-button[disabled] {
         // }
     }
 
     /* 일자 테이블 */
-    .owl-dt-calendar-table {
+    table.owl-dt-calendar-table {
         // 헤더 컬러
-        .owl-dt-calendar-header {
+        thead.owl-dt-calendar-header {
             color: var(--ion-color-light-contrast);
+            tr{
+                &.owl-dt-weekdays{
+                    th{
+                        border-bottom:1px solid #ececec;
+                        &:first-child {
+                            color:#b62727;
+                            font-weight: bold;
+                        }
+                    }
+                }
+                th.owl-dt-calendar-table-divider::after{
+                    display:none;
+                }
+            }
 
             .owl-dt-calendar-table-divider:after {
                 background-color: var(--ion-color-medium-shade);
@@ -41,13 +58,24 @@
         // 일자 컬러
         .owl-dt-calendar-cell {
             color: var(--ion-color-light-contrast);
-            font-weight: 600;
+            &:first-child .owl-dt-calendar-cell-content{
+                color: #b62727;
+            }
+            .owl-dt-calendar-cell-content{
+                left:50%;
+                top:50%;
+                transform:translate(-50%,-50%);
+                width:50%;
+                height: 50%;
+            }
         }
 
         // 일자 선택된 컬러
         .owl-dt-calendar-cell-selected {
             color: var(--ion-color-primary-contrast);
-            background-color: var(--ion-color-primary);
+            background-color: #2c3553;
+            box-shadow: none;
+            color:#fff !important;
         }
 
         // 일자 선택 불가능 컬러

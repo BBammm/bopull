@@ -1,11 +1,18 @@
-<!-- <ion-header>
+<ion-header>
     <ion-toolbar>
         <ion-title>main</ion-title>
     </ion-toolbar>
-</ion-header> -->
+</ion-header>
 
 <ion-content>
-    <!-- <button (click)="setToday()">Today</button> -->
+    <button (click)="setToday()">Today</button>
+    <owl-date-time-inline #dt1
+        class="dbd-owl-datetime"
+        pickerType="calendar"
+        selectMode="single"
+        [(ngModel)]="selectedDate"
+        (ngModelChange)="dtChanges($event)">
+    </owl-date-time-inline>
 
     <!-- <owl-date-time-inline #dt1 class="dbd-owl-datetime" pickerType="calendar" selectMode="single"
         [(ngModel)]="selectedDate" (ngModelChange)="dtChanges($event)">

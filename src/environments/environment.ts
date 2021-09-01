@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    // API 엔드포인트 위치
+    API_ENDPOINT: 'http://localhost:3000/v1/',
 };
 
 /*

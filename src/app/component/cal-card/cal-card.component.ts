@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
     selector: 'app-cal-card',
@@ -7,8 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalCardComponent implements OnInit {
 
+    @Input()
+    public data: any;
+
     constructor() { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        console.log('--- data  =', this.data);
+    }
 
 }
+
+@NgModule({
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+    ],
+    declarations: [
+        CalCardComponent
+    ],
+    exports: [
+        CalCardComponent
+    ]
+})
+export class CalCardModule { }

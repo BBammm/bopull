@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { TimelinePageRoutingModule } from './timeline-routing.module';
 
 import { TimelinePage } from './timeline.page';
+import { CalCardModule } from '../component/cal-card/cal-card.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TimelinePageRoutingModule
-  ],
-  declarations: [TimelinePage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TimelinePageRoutingModule,
+        CalCardModule
+    ],
+    declarations: [
+        TimelinePage,
+    ]
 })
-export class TimelinePageModule {}
+export class TimelinePageModule { }

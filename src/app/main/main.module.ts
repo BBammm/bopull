@@ -11,7 +11,7 @@ import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 
 import { MainPage } from './main.page';
 import { OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetimex/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
-import { CalCardComponent } from '../component/cal-card/cal-card.component';
+import { CalCardModule } from '../component/cal-card/cal-card.component';
 
 @NgModule({
     imports: [
@@ -21,26 +21,26 @@ import { CalCardComponent } from '../component/cal-card/cal-card.component';
         MainPageRoutingModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
+        CalCardModule
     ],
     declarations: [
         MainPage,
-        CalCardComponent
     ],
     providers: [
-    {
-        provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
-        useValue: {}
-    },
-    {
-        provide: OWL_DATE_TIME_LOCALE,
-        useValue: 'ko'
-    },
-    {
-        provide: OWL_DATE_TIME_FORMATS,
-        useValue: {
-            monthYearLabel: 'YYYY-MMM',
-        }
-    },
+        {
+            provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
+            useValue: {}
+        },
+        {
+            provide: OWL_DATE_TIME_LOCALE,
+            useValue: 'ko'
+        },
+        {
+            provide: OWL_DATE_TIME_FORMATS,
+            useValue: {
+                monthYearLabel: 'YYYY-MMM',
+            }
+        },
     ],
 })
 export class MainPageModule { }

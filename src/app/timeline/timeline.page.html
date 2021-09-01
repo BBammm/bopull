@@ -5,5 +5,7 @@
 </ion-header>
 
 <ion-content>
-
+    <ng-container *ngFor="let data of timelineList;">
+        <app-cal-card [data]="data"></app-cal-card>
+    </ng-container>
 </ion-content>

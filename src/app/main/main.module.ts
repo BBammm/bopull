@@ -5,13 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MainPageRoutingModule } from './main-routing.module';
-import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetimex';
-import { OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 
 
 import { MainPage } from './main.page';
-import { OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetimex/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { CalCardModule } from '../component/cal-card/cal-card.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
     imports: [
@@ -19,28 +18,15 @@ import { CalCardModule } from '../component/cal-card/cal-card.component';
         FormsModule,
         IonicModule,
         MainPageRoutingModule,
-        OwlDateTimeModule,
-        OwlNativeDateTimeModule,
-        CalCardModule
+        CalCardModule,
+
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
     ],
     declarations: [
         MainPage,
-    ],
-    providers: [
-        {
-            provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
-            useValue: {}
-        },
-        {
-            provide: OWL_DATE_TIME_LOCALE,
-            useValue: 'ko'
-        },
-        {
-            provide: OWL_DATE_TIME_FORMATS,
-            useValue: {
-                monthYearLabel: 'YYYY-MMM',
-            }
-        },
     ],
 })
 export class MainPageModule { }

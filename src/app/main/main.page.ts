@@ -5,7 +5,8 @@ import { ChangeDetectionStrategy, ViewChild, TemplateRef, } from '@angular/core'
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, } from 'date-fns';
 import { Subject } from 'rxjs';
 // import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, } from 'angular-calendar';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarDateFormatter } from 'angular-calendar';
+import { CustomDateFormatter } from './custom-date-formmatter.provider';
 
 const colors: any = {
     red: {
@@ -24,16 +25,23 @@ const colors: any = {
 
 @Component({
     selector: 'app-main',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './main.page.html',
     styleUrls: ['./main.page.scss'],
+    providers: [
+        {
+            provide: CalendarDateFormatter,
+            useClass: CustomDateFormatter
+        }
+    ]
 })
 export class MainPage implements OnInit {
     @Input() timezone = 'Asia/Seoul';
-    @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
     public selectedDate: any;
     public pickDateObj: any;
     public cardTrigger: boolean = false;
+    public locale = 'fr';
     viewDate: Date = new Date();
 
     view: CalendarView = CalendarView.Month;

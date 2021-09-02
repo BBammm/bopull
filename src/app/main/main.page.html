@@ -29,12 +29,18 @@
         </div>
         <br />
         <div [ngSwitch]="view">
-            <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
-                [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-                (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+            <mwl-calendar-month-view
+                *ngSwitchCase="CalendarView.Month"
+                [viewDate]="viewDate"
+                [events]="events"
+                [refresh]="refresh"
+                [activeDayIsOpen]="activeDayIsOpen"
+                (dayClicked)="dayClicked($event.day)"
+                (eventClicked)="handleEvent('Clicked', $event.event)"
+                (eventTimesChanged)="eventTimesChanged($event)"
+                (dayClicked)="clickedDate = $event.day.date">
             </mwl-calendar-month-view>
         </div>
-        <div></div>
 
         <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
         <!-- <h3>

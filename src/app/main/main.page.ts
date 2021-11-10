@@ -1,25 +1,37 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment-timezone';
 
 import { ChangeDetectionStrategy, ViewChild, TemplateRef, } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, startOfMonth, startOfWeek, endOfWeek, } from 'date-fns';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 // import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarDateFormatter, DAYS_OF_WEEK } from 'angular-calendar';
 import { CustomDateFormatter } from './custom-date-formmatter.provider';
+import { FormGroup } from '@angular/forms';
+import { ThrowStmt } from '@angular/compiler';
+import { ActivatedRoute } from '@angular/router';
+import { MainApiService } from './main-api.service';
 
 const colors: any = {
     red: {
-        primary: '#ad2121',
-        secondary: '#FAE3E3',
+        primary: '#ED0000',
+        secondary: '#ED0000',
+        flag: false
     },
     blue: {
-        primary: '#1e90ff',
-        secondary: '#D1E8FF',
+        primary: '#001DED',
+        secondary: '#001DED',
+        flag: false
     },
-    yellow: {
-        primary: '#e3bc08',
-        secondary: '#FDF1BA',
+    pink: {
+        primary: '#FF33E9',
+        secondary: '#FF33E9',
+        flag: false
+    },
+    black: {
+        primary: '#000000',
+        secondary: '#000000',
+        flag: false
     },
 };
 interface Film {
@@ -40,33 +52,61 @@ interface Film {
         }
     ]
 })
-export class MainPage implements OnInit {
+export class MainPage implements OnInit, OnDestroy {
     @Input() timezone = 'Asia/Seoul';
 
     public selectedDate: any;
     public selectedDates: any;
     public pickDateObj: any;
     public cardTrigger: boolean = false;
+    public scheduleList: any = [];
+    public events: any = [];
+    public activeColor = '';
+    public routeSubscription: Subscription;
+    public isPending: boolean;
+
     viewDate: Date = new Date();
 
     view: CalendarView = CalendarView.Month;
-    events: CalendarEvent[] = [];
     weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
     weekendDays: number[] = [DAYS_OF_WEEK.FRIDAY, DAYS_OF_WEEK.SATURDAY];
 
     refresh: Subject<any> = new Subject();
-
-
-
-
     events$: Observable<CalendarEvent<{ film: Film }>[]>;
 
     activeDayIsOpen: boolean = false;
-    constructor() { }
+
+    constructor(
+        private route: ActivatedRoute,
+        private mainApi: MainApiService,
+        private cd: ChangeDetectorRef
+    ) { }
 
     ngOnInit() {
-        console.log(this.viewDate);
         this.setToday();
+        this.activeColor = 'r';
+        this.isPending = false;
+
+        this.routeSubscription = this.route.paramMap.subscribe({
+            next: async () => {
+                this.events = await this.mainApi.getList().toPromise();
+                this.events.forEach(el => {
+                    console.log('el = ', el);
+                    el.start = new Date(el.datetime);
+                });
+                console.log('this.events = ', this.events);
+                this.cd.detectChanges();
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.routeSubscription) this.routeSubscription.unsubscribe();
+    }
+
+    ionViewDidEnter () {
+        this.isPending = true;
+        console.log('ionViewDidEnter');
     }
 
     /**
@@ -78,9 +118,6 @@ export class MainPage implements OnInit {
     }
     setView(view: CalendarView) {
         this.view = view;
-    }
-    ionViewDidEnter() {
-        // const gameLevel = document.querySelectorAll(".game-level");
     }
 
     /*
@@ -104,11 +141,12 @@ export class MainPage implements OnInit {
     }
 
     addEvent({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-        console.log('date = ', date);
+        // console.log('date = ', date);
+        // console.log('date = ', moment.tz(date, 'Asia/Seoul').format('YYYY-MM-DD'));
         this.events = [
             ...this.events,
             {
-                title: 'New event',
+                title: '',
                 start: date,
                 // end: endOfDay(new Date()),
                 color: colors.red,
@@ -119,6 +157,54 @@ export class MainPage implements OnInit {
                 // },
             },
         ];
+        // console.log('this.events = ', this.events);
+    }
+
+    /**
+     * 등록하기 클릭 시
+     */
+    public register(eventData: any, index: any) {
+        console.log('eventData = ', eventData, index);
+        this.events[index].title = eventData.title;
+        this.events[index].start = eventData.start;
+        const data = {
+            title: eventData.title,
+            start: eventData.start,
+            color: this.events[index].color
+        };
+        console.log('data = ', data);
+    }
+
+    /**
+     * 색상변경
+     */
+    public setSchColor(color, index) {
+        this.activeColor = color;
+        switch (color) {
+            case 'r':
+                this.events[index].color = colors.red;
+                break;
+            case 'b':
+                this.events[index].color = colors.blue;
+                break;
+            case 'p':
+                this.events[index].color = colors.pink;
+                break;
+            case 'bl':
+                this.events[index].color = colors.black;
+                break;
+        }
+    }
+
+    /*
+        변경한 색이 맞는지 아닌지 actvice class를 위한 func
+    */
+    public isActive(color) {
+        return this.activeColor === color;
+    }
+
+    closeOpenMonthViewDay() {
+        this.activeDayIsOpen = false;
     }
 
 

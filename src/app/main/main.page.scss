@@ -66,3 +66,68 @@
         }
     }
 }
+
+article.schedule-write {
+    div.input-wrapper {
+        width: 100%;
+        div {
+            margin-bottom: 12px;
+        }
+        div.fab-wrapper {
+            display: flex;
+            ion-fab-button {
+                width: 28px;
+                height: 28px;
+                margin-right: 8px;
+            }
+            .fab-btn {
+                position: relative;
+                &.active::after {
+                    content: '';
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background-color: red;
+                }
+            }
+            span {
+                width: 18px;
+                height: 18px;
+                &.circle {
+                    border-radius: 50%;
+                }
+                &.red {
+                    background-color: red;
+                }
+                &.black {
+                    background-color: black;
+                }
+                &.blue {
+                    background-color: blue;
+                }
+                &.pink {
+                    background-color: pink;
+                }
+            }
+        }
+    }
+}
+
+ion-fab {
+    ion-fab-button {
+        width: 36px;
+        height: 36px;
+    }
+    ion-fab-list {
+        min-width: 56px;
+        min-height: 36px;
+        margin-inline: 50px;
+        ion-fab-button {
+            width: 28px;
+            height: 28px;
+        }
+    }
+}

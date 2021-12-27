@@ -7,10 +7,9 @@ import { Observable, Subject, Subscription } from 'rxjs';
 // import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarDateFormatter, DAYS_OF_WEEK } from 'angular-calendar';
 import { CustomDateFormatter } from './custom-date-formmatter.provider';
-import { FormGroup } from '@angular/forms';
-import { ThrowStmt } from '@angular/compiler';
 import { ActivatedRoute } from '@angular/router';
 import { MainApiService } from './main-api.service';
+import { DataSharingService } from './data-sharing.service';
 
 const colors: any = {
     red: {
@@ -63,7 +62,11 @@ export class MainPage implements OnInit, OnDestroy {
     public events: any = [];
     public activeColor = '';
     public routeSubscription: Subscription;
+    public subscription: Subscription;
     public isPending: boolean;
+
+    public viewData = [];
+    public isHaveData: boolean;
 
     viewDate: Date = new Date();
 
@@ -79,8 +82,13 @@ export class MainPage implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private mainApi: MainApiService,
-        private cd: ChangeDetectorRef
-    ) { }
+        private cd: ChangeDetectorRef,
+        private dataSharingSvc: DataSharingService,
+    ) {
+        this.dataSharingSvc.isGetData.subscribe(value => {
+            this.isHaveData = value;
+        });
+    }
 
     ngOnInit() {
         this.setToday();
@@ -92,7 +100,7 @@ export class MainPage implements OnInit, OnDestroy {
                 this.events = await this.mainApi.getList().toPromise();
                 this.events.forEach(el => {
                     console.log('el = ', el);
-                    el.start = new Date(el.datetime);
+                    el.start = new Date(el.date_format);
                 });
                 console.log('this.events = ', this.events);
                 this.cd.detectChanges();
@@ -124,38 +132,41 @@ export class MainPage implements OnInit, OnDestroy {
         날짜 클릭 event
     */
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-        console.log('date = ', date);
-        console.log('events = ', events);
-        console.log('date moment = ', moment(date).format('YYYY-MM-DD'));
         if (isSameMonth(date, this.viewDate)) {
-            if (
-                (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-                events.length === 0
-            ) {
+            if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0) {
                 this.activeDayIsOpen = false;
             } else {
                 this.activeDayIsOpen = true;
                 this.viewDate = date;
-            }
+             }
         }
     }
 
     addEvent({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         // console.log('date = ', date);
         // console.log('date = ', moment.tz(date, 'Asia/Seoul').format('YYYY-MM-DD'));
+        console.log('date - ', date);
+        console.log('moment - ', moment(date).format('YYYY-MM-DD'));
+
+        const dateFormat = moment(date).format('YYYY-MM-DD');
+        this.mainApi.getSchedule(dateFormat).subscribe((res: any) => {
+            this.viewData = [...res];
+            (this.viewData.length !== 0) ? this.dataSharingSvc.isGetData.next(true) : this.dataSharingSvc.isGetData.next(false);
+            console.log(this.isHaveData);
+        });
         this.events = [
             ...this.events,
-            {
-                title: '',
-                start: date,
-                // end: endOfDay(new Date()),
-                color: colors.red,
-                draggable: true,
-                // resizable: {
-                //     beforeStart: true,
-                //     afterEnd: true,
-                // },
-            },
+            // {
+            //     title: '',
+            //     start: date,
+            //     // end: endOfDay(new Date()),
+            //     color: colors.red,
+            //     draggable: true,
+            //     // resizable: {
+            //     //     beforeStart: true,
+            //     //     afterEnd: true,
+            //     // },
+            // },
         ];
         // console.log('this.events = ', this.events);
     }
@@ -170,6 +181,7 @@ export class MainPage implements OnInit, OnDestroy {
         const data = {
             title: eventData.title,
             start: eventData.start,
+            start_format: moment(eventData.start).format('YYYY-MM-DD'),
             color: this.events[index].color
         };
         console.log('data = ', data);

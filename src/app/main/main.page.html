@@ -5,99 +5,129 @@
 </ion-header>
 
 <ion-content>
-    {{isPending}}
-    <ng-container *ngIf="isPending">
-        <!-- <owl-date-time-inline #dt1 class="dbd-owl-datetime" pickerType="calendar" selectMode="single"
-            [(ngModel)]="selectedDate" (ngModelChange)="dtChanges($event)">
-        </owl-date-time-inline> -->
+    <!-- <owl-date-time-inline #dt1 class="dbd-owl-datetime" pickerType="calendar" selectMode="single"
+        [(ngModel)]="selectedDate" (ngModelChange)="dtChanges($event)">
+    </owl-date-time-inline> -->
+    <div>
+        <div class="text-center">
+            <div class="btn-group">
+                <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Previous
+                </div>
+                <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+                    Today
+                </div>
+                <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Next
+                </div>
+            </div>
+            <div>
+                <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+        </div>
+        <br />
         <div>
-            <div class="text-center">
-                <div class="btn-group">
-                    <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-                        (viewDateChange)="closeOpenMonthViewDay()">
-                        Previous
+            <mwl-calendar-month-view [viewDate]="selectedDates" [events]="events" [weekStartsOn]="weekStartsOn"
+                [weekendDays]="weekendDays" (dayClicked)="addEvent($event.day)">
+            </mwl-calendar-month-view>
+        </div>
+
+        <ng-container>
+            <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+            <h3>
+                Edit events {{isHaveData}}
+            </h3>
+            <article class="schedule-write">
+                <div class="input-wrapper" *ngFor="let event of events; index as i">
+                    <div>
+                        <ion-item>
+                            <ion-label position="floating">내용을 입력해주세요.</ion-label>
+                            <ion-input type="text" [(ngModel)]="event.title"></ion-input>
+                        </ion-item>
                     </div>
-                    <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
-                        Today
+                    <div class="fab-wrapper">
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('r')" (click)="setSchColor('r', i, $event)">
+                            <span class="circle red"></span>
+                        </ion-fab-button>
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('b')" (click)="setSchColor('b', i, $event)">
+                            <span class="circle blue"></span>
+                        </ion-fab-button>
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('p')" (click)="setSchColor('p', i, $event)">
+                            <span class="circle pink"></span>
+                        </ion-fab-button>
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('bl')" (click)="setSchColor('bl', i, $event)">
+                            <span class="circle black"></span>
+                        </ion-fab-button>
                     </div>
-                    <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-                        (viewDateChange)="closeOpenMonthViewDay()">
-                        Next
+                    <div>
+                        <ion-input type="text" [(ngModel)]="event.start" placeholder="Not set" readonly></ion-input>
                     </div>
+                    <div>
+                        <button class="btn btn-danger" (click)="register(event, i)">등록</button>
+                    </div>
+                </div>
+            </article>
+        </ng-container>
+        <ng-container *ngIf="isHaveData">
+            <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+            <h3>
+                Edit events
+            </h3>
+            <article class="schedule-write">
+                <div class="input-wrapper" *ngFor="let data of viewData; index as i">
+                    <div>
+                        <ion-item>
+                            <ion-label position="floating">내용을 입력해주세요.</ion-label>
+                            <ion-input type="text" [(ngModel)]="data.title"></ion-input>
+                        </ion-item>
+                    </div>
+                    <div class="fab-wrapper">
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('r')" (click)="setSchColor('r', i, $event)">
+                            <span class="circle red"></span>
+                        </ion-fab-button>
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('b')" (click)="setSchColor('b', i, $event)">
+                            <span class="circle blue"></span>
+                        </ion-fab-button>
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('p')" (click)="setSchColor('p', i, $event)">
+                            <span class="circle pink"></span>
+                        </ion-fab-button>
+                        <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('bl')" (click)="setSchColor('bl', i, $event)">
+                            <span class="circle black"></span>
+                        </ion-fab-button>
+                    </div>
+                    <div>
+                        <ion-input type="text" [(ngModel)]="data.start" placeholder="Not set" readonly></ion-input>
+                    </div>
+                </div>
+            </article>
+        </ng-container>
+
+        <!-- <ng-template #modalContent let-close="close">
+            <div class="modal-header">
+                <h5 class="modal-title">Event action occurred</h5>
+                <button type="button" class="close" (click)="close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Action:
+                    <pre>{{ modalData?.action }}</pre>
                 </div>
                 <div>
-                    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+                    Event:
+                    <pre>{{ modalData?.event | json }}</pre>
                 </div>
             </div>
-            <br />
-            <div>
-                <mwl-calendar-month-view [viewDate]="selectedDates" [events]="events" [weekStartsOn]="weekStartsOn"
-                    [weekendDays]="weekendDays" (dayClicked)="addEvent($event.day)">
-                </mwl-calendar-month-view>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                    OK
+                </button>
             </div>
-
-            <ng-container>
-                <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-                <h3>
-                    Edit events
-                </h3>
-                <article class="schedule-write">
-                    <div class="input-wrapper" *ngFor="let event of events; index as i">
-                        <div>
-                            <ion-item>
-                                <ion-label position="floating">내용을 입력해주세요.</ion-label>
-                                <ion-input type="text" [(ngModel)]="event.title"></ion-input>
-                            </ion-item>
-                        </div>
-                        <div class="fab-wrapper">
-                            <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('r')" (click)="setSchColor('r', i, $event)">
-                                <span class="circle red"></span>
-                            </ion-fab-button>
-                            <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('b')" (click)="setSchColor('b', i, $event)">
-                                <span class="circle blue"></span>
-                            </ion-fab-button>
-                            <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('p')" (click)="setSchColor('p', i, $event)">
-                                <span class="circle pink"></span>
-                            </ion-fab-button>
-                            <ion-fab-button class="fab-btn" color="light" [class.active]="isActive('bl')" (click)="setSchColor('bl', i, $event)">
-                                <span class="circle black"></span>
-                            </ion-fab-button>
-                        </div>
-                        <div>
-                            <ion-input type="text" [(ngModel)]="event.start" placeholder="Not set" readonly></ion-input>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger" (click)="register(event, i)">등록</button>
-                        </div>
-                    </div>
-                </article>
-            </ng-container>
-
-            <!-- <ng-template #modalContent let-close="close">
-                <div class="modal-header">
-                    <h5 class="modal-title">Event action occurred</h5>
-                    <button type="button" class="close" (click)="close()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        Action:
-                        <pre>{{ modalData?.action }}</pre>
-                    </div>
-                    <div>
-                        Event:
-                        <pre>{{ modalData?.event | json }}</pre>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" (click)="close()">
-                        OK
-                    </button>
-                </div>
-            </ng-template> -->
-        </div>
-    </ng-container>
+        </ng-template> -->
+    </div>
     <!-- <div class="select-view-wrap">
     	<div class="view">
     		<div class="selected">
